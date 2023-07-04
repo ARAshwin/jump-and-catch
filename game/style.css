@@ -36,6 +36,7 @@
     top :40%;
     padding: 10px;
     display: none;
+    z-index: 100000;
 }
 #game-over #restart{
     margin-left: 35%;

@@ -5,14 +5,19 @@ var im = document.getElementById("im")
 var score_div = document.getElementById('score-text')
 var abstacleHeights = [50, 46, 70, 100]
 var score = 0
+var coins_count = 0
 var game_over = document.getElementById("game-over")
 var inter = []
+var coins = []
 var s1
+var s2
 var isRestart = false
 var start = document.getElementById("start")
+var coin_div = document.getElementById("coin_count")
 var start_div = document.getElementsByClassName("start")
 var restart = document.getElementById("restart")
 var created_obstacles = []
+var created_coins = []
 var pos = 0
 let isJumping = false;
 
@@ -101,8 +106,14 @@ function restartAction() {
     for (let i of created_obstacles) {
         i.remove()
     }
+    for (let i of created_coins) {
+        i.remove()
+    }
     score = 0
+    coins_count = 0
     score_div.innerText = 0
+    inter = []
+    coins = []
 }
 
 function jump() {
@@ -129,13 +140,49 @@ function jump() {
 }
 
 function startGame() {
+    let counter = 0;
     s1 = setInterval(() => {
-        h = Math.floor(Math.random() * 4)
-        height = abstacleHeights[h]
-        createEnemy(height)
+        if (counter % 4 === 0) {
+            h = Math.floor(Math.random() * 4)
+            height = abstacleHeights[h]
+            createEnemy(height)
+        }else{
+            if (Math.random() < 0.8) {
+                spawnCoin();
+            }
+        }
+        counter++
         score += 40
+        coin_div.innerText = coins_count
         score_div.innerText = score
-    }, 2000);
+    }, 500);
+}
+
+function spawnCoin(){
+    var coin = document.createElement('img');
+    var coin_pos = Math.random() < 0.5 ? 3 : 140;
+    coin.style.cssText = `
+    right:0;
+    position:absolute;
+    width:40px;
+    height:40px;
+    object-fit:cover;
+    bottom:${coin_pos}px;
+    `
+    coin.src = "../images/coin.gif"
+    center[0].appendChild(coin)
+    var ml = 0
+    var s3 = setInterval(() => {
+        ml += 2
+        coin.style.marginRight = ml + 'px'
+        detectCollision(char[0], coin,true)
+        if (ml > window.innerWidth) {
+            coin.remove()
+        }
+    }, 10)
+    coins.push(s3)
+    console.log(coins_count);
+    created_coins.push(coin)
 }
 
 function createEnemy(height) {
@@ -179,7 +226,7 @@ function createEnemy(height) {
     inter.push(s2)
 }
 
-function detectCollision(div1, div2) {
+function detectCollision(div1, div2,_coin=false) {
     var rect1 = div1.getBoundingClientRect();
     var rect2 = div2.getBoundingClientRect();
     if (
@@ -189,16 +236,27 @@ function detectCollision(div1, div2) {
         rect1.y + rect1.height > rect2.y
     ) {
         console.log('Collision detected!');
-        game_over.style.display = "block"
-        stopGame()
+        if(_coin){
+            div2.remove()
+            coins_count++
+        }
+        else{
+            game_over.style.display = "block"
+            stopGame()
+        }
+        
     }
 }
 
 function stopGame() {
     isRestart = true
     clearInterval(s1)
+    clearInterval(s2)
     for (let i of inter) {
         clearInterval(i)
+    }
+    for (let j of coins) {
+        clearInterval(j)
     }
 }
 
