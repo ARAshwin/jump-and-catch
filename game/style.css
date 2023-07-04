@@ -1,0 +1,102 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.char{
+    width: 54px;
+    height: 54px;
+    /* margin: auto; */
+    /* padding-top: 430px; */
+    border: 1px solid transparent;
+    border-radius: 50%;
+    z-index: 10000;
+    position: absolute;
+    bottom: 15px;
+}
+.center{
+    height: 500px;
+    width: 1000px;
+    position: relative;
+    object-fit: contain;
+}
+.score{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+}
+#game-over{
+    color: white;
+    font-size:55px;
+    position: absolute;
+    left: 35%;
+    top :40%;
+    padding: 10px;
+    display: none;
+}
+#game-over #restart{
+    margin-left: 35%;
+}
+.center .bg{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+    z-index: -10;
+}
+.start{
+    color: aliceblue;
+    position: absolute;
+    left: 35%;
+    top :40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.start h1{
+    font-size: 55px;
+}
+.start button,#game-over #restart{
+  background-color: #c2fbd7;
+  border-radius: 100px;
+  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 10px;
+}
+
+.start button:hover,#game-over #restart:hover {
+  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+}
+
+.enemyBird {
+    animation: birdAnimation 2s infinite;
+  }
+
+  @keyframes birdAnimation {
+    0% {
+      bottom: 0;
+    }
+    50% {
+        bottom: 120px;
+    }
+    100% {
+        bottom: 0;
+    }
+  }
