@@ -10,23 +10,28 @@
 <body style="background-color: black;position: relative;">
     <div class="center">
         <div class="start">
-            <h1>Jump & Catch</h1>
-            <button id="start">Start</button>
+            <h1 style="margin-bottom: 25px;">Jump & Catch</h1>
+            <button id="start" class="btn">Start</button>
+            <button id="shop-btn" class="btn">Shop</button>
         </div>
         <div class="score">
-            <span><img src="../images/coin.gif" alt="coin" width="30px" height="30px"></span>
+            <span><img src="../images/coin2.gif" alt="coin" width="30px" height="30px" style="margin-bottom: -4px;"></span>
             <span>X</span>
             <span id="coin_count">0</span>
-            <span>SCORE:</span>
+            <span style="padding: 20px;"></span>
+            <span class="sc">SCORE:</span>
             <span id="score-text">0</span>
         </div>
         <div id="game-over">
             <div>GAME OVER</div>
-            <button id="restart">Restart</button>
+            <button id="restart" class="btn">Restart</button>
         </div>
         <img src="../images/1kuQ.gif" class="bg">
         <div class="char">
-            <img src="../images/m.gif" id="im" />
+            <!-- <img src="../images/char1.gif" id="im" /> -->
+        </div>
+        <div class="shop-area">
+            <div class="shop-items"></div>
         </div>
     </div>
 </body>
