@@ -71,14 +71,17 @@
     color: white;
     font-size:55px;
     position: absolute;
-    left: 35%;
-    top :40%;
+    left: 40%;
+    top :32%;
     padding: 10px;
     display: none;
     z-index: 100000;
 }
 #game-over #restart{
-    margin-left: 35%;
+    margin-left: 32%;
+}
+#home{
+    margin-left: 37%;
 }
 .center .bg{
     width: 100%;
@@ -99,6 +102,44 @@
 }
 .start h1{
     font-size: 55px;
+}
+.close-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100000;
+}
+.popup{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+.popup-area{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup-area img{
+    width: 250px;
+    height:200px;
+}
+#popup-text{
+    position: absolute;
+    top: 52px;
+    font-size: 23px;
+    color: white;
+}
+.popup-area span{
+    position: absolute;
+    display: flex;
+    top: 94px;
+    gap: 19px;
 }
 .btn{
   background-color: #c2fbd7;

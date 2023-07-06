@@ -2,6 +2,10 @@ var char = document.getElementsByClassName('char')
 var center = document.getElementsByClassName('center')
 var shop_area = document.getElementsByClassName('shop-area')
 var shop_items = document.getElementsByClassName('shop-items')
+var shop_close_button = document.getElementsByClassName('close-btn')
+var popup = document.getElementsByClassName('popup')
+var popup_cancel = document.getElementsByClassName("popup-cancel")
+var start_screen = document.getElementsByClassName('start-screen')
 var sc = document.getElementsByClassName('sc')
 var shop_open = document.getElementById("shop-btn")
 var score_div = document.getElementById('score-text')
@@ -9,6 +13,7 @@ var abstacleHeights = [50, 46, 70, 100]
 var score = 0
 var coins_count = 0
 var game_over = document.getElementById("game-over")
+var home_button = document.getElementById("home")
 var inter = []
 var coins = []
 var s1
@@ -26,6 +31,8 @@ var game_data
 var isRightArrowPressed = false;
 var isLeftArrowPressed = false;
 var selected_character
+var im 
+var confirm_purchase = document.getElementById("confirm-purchase")
 
 var game_characters = [{
     "id":0,
@@ -52,7 +59,6 @@ var game_characters = [{
 
 getorcreateGameData()
 init()
-var im = document.getElementById("im")
 
 start.onclick = function () {
     startAction()
@@ -62,12 +68,42 @@ restart.onclick = function () {
     restartAction()
 };
 
+home_button.onclick = function () {
+    closeShop()
+    reset()
+    char[0].innerHTML = ""
+    init()
+};
+
 shop_open.onclick = function () {
     char[0].style.display = "none"
-    start_div[0].style.display = "none"
+    char[0].innerHTML = ""
+    start_screen[0].style.display = "none"
     shop_area[0].style.display = "block"
     renderShopChar()
 };
+
+shop_close_button[0].onclick = function () {
+    closeShop()
+}
+
+function closeShop(){
+    shop_area[0].style.display = "none"
+    char[0].style.display = "block"
+    start_screen[0].style.display = "block"
+    shop_items[0].innerHTML = ""
+    // refreshChar()
+    init()
+}
+
+for(let i of popup_cancel){
+    i.onclick = function () {
+        for(let i of popup){
+            i.style.display = "none"
+        }
+    }
+}
+
 
 document.addEventListener('keydown', function (event) {
     if (event.key == " " ||
@@ -134,11 +170,16 @@ function moveLeft() {
 
 function startAction() {
     startGame()
-    start_div[0].style.display = "none"
+    start_screen = document.getElementsByClassName('start-screen')
+    start_screen[0].style.display = "none"
 }
 
 function restartAction() {
     startGame()
+    reset()
+}
+
+function reset(){
     game_over.style.display = "none"
     for (let i of created_obstacles) {
         i.remove()
@@ -317,15 +358,19 @@ function getorcreateGameData() {
     }
 }
 
+function save(){
+    localStorage.setItem("jump_and_catch", JSON.stringify(game_data))
+}
+
 function saveCoinGameData(){
     game_data.data.coins += coins_count
-    localStorage.setItem("jump_and_catch", JSON.stringify(game_data))
+    save()
 }
 
 function setHighScore(){
     if(score > game_data.data.high_score){
         game_data.data.high_score = score
-        localStorage.setItem("jump_and_catch", JSON.stringify(game_data))
+        save()
     }
 }
 
@@ -333,25 +378,77 @@ function renderShopChar(){
     for(let i of game_characters){
         const ch_div = document.createElement("div");
         ch_div.onclick = function () {
-            setCurrentCharacter(i.id)
-            init()
+            var items = document.getElementsByClassName("shop-item-click");
+            for(j=0;j<items.length;j++){
+                if(isItemBought(i.id)){
+                    if(j == i.id){
+                        items[j].style.display = "block"
+                    }
+                    else{
+                        items[j].style.display = "none"
+                    }
+                    setCurrentCharacter(i.id)
+                }else{
+                    popup[0].style.display = "flex"
+                    confirm_purchase.onclick = function () {
+                        if(game_data.data.coins >= i.cost){
+                            game_data.data.bought_characters_id.push(i.id)
+                            game_data.data.coins-=i.cost
+                            save()
+                            setCurrentCharacter(i.id)
+                            // purchase successful
+                            popup[0].style.display = "none"
+                            popup[2].style.display = "flex"
+                            var items_1 = document.getElementsByClassName("shop-item-click");
+                            for(k=0;k<items_1.length;k++){
+                                if(k == i.id){
+                                    items_1[k].style.display = "block"
+                                }
+                                else{
+                                    items_1[k].style.display = "none"
+                                }
+                            }
+                            var cbtn = document.getElementsByClassName("cost-btn");
+                            for(k=0;k<cbtn.length;k++){
+                                if(k == i.id){
+                                    cbtn[k].innerText = "selected"
+                                }
+                                else{
+                                    cbtn[k].innerText = "select"
+                                }
+                            }
+                        }else{
+                            // insufficient coins
+                            popup[0].style.display = "none"
+                            popup[1].style.display = "flex"
+                        }
+                    }
+                }
+            }
         }
         const cost_div = document.createElement("button");
-        cost_div.style.cssText = `height:30px;width:140px;border:5px solid black;position:absolute;bottom:0;
+        cost_div.classList.add("cost-btn");
+        cost_div.style.cssText = `height:30px;width:100%;border:5px solid black;position:absolute;bottom:0;
         font-size:17px;background:none;`
         cost_div.innerText = "cost: "+i.cost
-        ch_div.style.cssText = `height:180px;width:47%;position:relative;`
+        if(isItemBought(i.id)){
+            cost_div.innerText = "select"
+        }
+        ch_div.style.cssText = `height:180px;width:50%;position:relative;border: 5px solid transparent;`
+        // ch_div.classList.add("shop-item-click");
         const ch_img = document.createElement("img");
         ch_img.src = `../images/${i["img-idle"]}`
         ch_img.classList.add("shop-item");
         const fr_img = document.createElement("img");
         fr_img.src = '../images/hover-frame.png'
-        fr_img.style.cssText = `position:absolute;height:150px;width:150px;`
+        fr_img.style.cssText = `position:absolute;height:150px;width:100%;display:none;`
+        fr_img.classList.add("shop-item-click");
         
         if(selected_character.id == i.id){
-            ch_div.appendChild(fr_img)
+            fr_img.style.display = "block"
             cost_div.innerText = "selected"
         }
+        ch_div.appendChild(fr_img)
         ch_div.appendChild(cost_div)
         ch_div.appendChild(ch_img)
         shop_items[0].appendChild(ch_div)
@@ -359,6 +456,7 @@ function renderShopChar(){
 }
 
 function init(){
+    char[0].innerHTML = ""
     coin_div.innerText = game_data.data.coins
     score_div.innerText = game_data.data.high_score
     sc[0].innerText = "HIGH SCORE:"
@@ -367,9 +465,18 @@ function init(){
     char_image.src = `../images/${selected_character["img-idle"]}`
     char_image.setAttribute("id", "im");
     char[0].appendChild(char_image)
+    im = document.getElementById("im")
+}
+
+function refreshChar(){
+    char[0].removeChild(char[0].firstChild)
 }
 
 function setCurrentCharacter(id){
     game_data.data.selected_character_id = id
-    localStorage.setItem("jump_and_catch", JSON.stringify(game_data))
+    save()
+}
+
+function isItemBought(id){
+    return game_data.data.bought_characters_id.includes(id)
 }

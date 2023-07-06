@@ -9,11 +9,13 @@
 </head>
 <body style="background-color: black;position: relative;">
     <div class="center">
-        <div class="start">
-            <h1 style="margin-bottom: 25px;">Jump & Catch</h1>
-            <button id="start" class="btn">Start</button>
-            <button id="shop-btn" class="btn">Shop</button>
-        </div>
+        <span class="start-screen">
+            <div class="start">
+                <h1 style="margin-bottom: 25px;">Jump & Catch</h1>
+                <button id="start" class="btn">Start</button>
+                <button id="shop-btn" class="btn">Shop</button>
+            </div>
+        </span>
         <div class="score">
             <span><img src="../images/coin2.gif" alt="coin" width="30px" height="30px" style="margin-bottom: -4px;"></span>
             <span>X</span>
@@ -24,14 +26,46 @@
         </div>
         <div id="game-over">
             <div>GAME OVER</div>
-            <button id="restart" class="btn">Restart</button>
+            <div>
+                <button id="restart" class="btn">Restart</button>
+                <button id="home" class="btn">Home</button>
+            </div>
         </div>
         <img src="../images/1kuQ.gif" class="bg">
         <div class="char">
             <!-- <img src="../images/char1.gif" id="im" /> -->
         </div>
         <div class="shop-area">
+            <img src="../images/close-button.png" alt="" class="close-btn" onclick="closeShop()">
             <div class="shop-items"></div>
+            <div class="popup">
+                <div class="popup-area">
+                    <img src="../images/shop-frame.png" alt="">
+                    <div id="popup-text">confirm &nbsp; purchase</div>
+                    <span>
+                        <button class="btn" id="confirm-purchase">ok</button>
+                        <button class="btn popup-cancel" >cancel</button>
+                    </span>
+                </div>
+            </div>
+            <div class="popup">
+                <div class="popup-area">
+                    <img src="../images/shop-frame.png" alt="">
+                    <div id="popup-text">insufficient coins</div>
+                    <span>
+                        <button class="btn popup-cancel" >ok</button>
+                    </span>
+                </div>
+            </div>
+            <div class="popup">
+                <div class="popup-area">
+                    <img src="../images/shop-frame.png" alt="">
+                    <div id="popup-text">success</div>
+                    <span>
+                        <button class="btn popup-cancel" >ok</button>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </body>
