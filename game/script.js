@@ -55,6 +55,22 @@ var game_characters = [{
     "cost":2000,
     "img-idle":"char2.gif",
     "img-jump":"char2-jump.png"
+},
+{
+    "id":2,
+    "name":"space dog",
+    "description":"",
+    "cost":5000,
+    "img-idle":"char3.gif",
+    "img-jump":"char3-jump.png"
+},
+{
+    "id":3,
+    "name":"princess",
+    "description":"",
+    "cost":10000,
+    "img-idle":"char4.gif",
+    "img-jump":"char4-jump.png"
 }]
 
 getorcreateGameData()
@@ -434,7 +450,7 @@ function renderShopChar(){
         if(isItemBought(i.id)){
             cost_div.innerText = "select"
         }
-        ch_div.style.cssText = `height:180px;width:50%;position:relative;border: 5px solid transparent;`
+        ch_div.style.cssText = `height:180px;width:160px;position:relative;border: 5px solid transparent;`
         // ch_div.classList.add("shop-item-click");
         const ch_img = document.createElement("img");
         ch_img.src = `../images/${i["img-idle"]}`
