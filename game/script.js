@@ -359,23 +359,32 @@ function stopGame() {
 }
 
 function getorcreateGameData() {
-    game_data = JSON.parse(localStorage.getItem("jump_and_catch"))
-    if (!game_data) {
-        game_data = localStorage.setItem("jump_and_catch", JSON.stringify(
-            {
-                "data": {
-                    "coins": 0,
-                    "space_pressed": 0,
-                    "high_score":0,
-                    "selected_character_id":0,
-                    "bought_characters_id":[]
-                }
-            }));
+    try{
+        var initial_data = {
+            "data": {
+                "coins": 0,
+                "space_pressed": 0,
+                "high_score":0,
+                "selected_character_id":0,
+                "bought_characters_id":[0]
+            }
+        }
+        game_data = JSON.parse(localStorage.getItem("jump_and_catch"))
+        if (!game_data) {
+            game_data = localStorage.setItem("jump_and_catch", JSON.stringify(initial_data));
+        }
+    }catch(e){
+        game_data = initial_data
     }
 }
 
 function save(){
-    localStorage.setItem("jump_and_catch", JSON.stringify(game_data))
+    try{
+        localStorage.setItem("jump_and_catch", JSON.stringify(game_data))
+    }
+    catch(e){
+        console.log("no local storage available");
+    }
 }
 
 function saveCoinGameData(){
